@@ -41,14 +41,13 @@ login()
 		HOST=`echo $line | cut -f1 -d:`
 		USER=`echo $line | cut -f2 -d:`
 		PASS=`echo $line | cut -f3 -d: |base64 -d`
-		expect -c spawn "$USER@$HOST"
-		expect -c expect "password: "
-		expect -c send "$PASS\r"
 		fi
 	
 	done < $passwdfile
-	
-	
+#	expect -f "spawn ssh $USER@$HOST;expect 'password: ';send '$PASS';interact '$ '"
+	./easy_login_expect.sh $USER $HOST $PASS
+        #expect -c "expect eof"
+
 }
 
 login
